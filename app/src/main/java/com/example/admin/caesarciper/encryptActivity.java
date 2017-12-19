@@ -1,8 +1,11 @@
 package com.example.admin.caesarciper;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,12 +32,18 @@ public class encryptActivity extends AppCompatActivity {
         keyWord = (TextView) findViewById(R.id.key);
         encrypt = (Button) findViewById(R.id.encrypt);
 
+        Context con = getApplicationContext();                                                                              // open keyboard in begin
+        final InputMethodManager imm = (InputMethodManager) con.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         encrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int key = ran.nextInt(14) + 1;
                 keyWord.setText(Integer.toString(key));
                 String txt = text.getText().toString();
+
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);               //hide keyboard
 
                 enText.setText(getCiper(txt, key));
             }
